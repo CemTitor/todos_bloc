@@ -6,6 +6,7 @@ part 'stats_event.dart';
 part 'stats_state.dart';
 
 ///StatsBloc depends on the TodosRepository just like TodosOverviewBloc. It subscribes to the todos stream via _todosRepository.getTodos
+///The TodosOverviewBloc and StatsBloc both communicate with the TodosRepository, but it is important to note there is no direct communication between the blocs.
 class StatsBloc extends Bloc<StatsEvent, StatsState> {
   StatsBloc({
     required TodosRepository todosRepository,
