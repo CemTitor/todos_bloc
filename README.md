@@ -54,7 +54,19 @@ A repository is part of the business layer. A repository depends on one or more 
 
 # Feature Layer
 
-This layer contains all of the application-specific features and use cases. Each feature generally consists of some UI and business logic. Features should generally be independent of other features so that they can easily be added/removed without impacting the rest of the codebase. Within each feature, the state of the feature along with any business logic is managed by blocs. Blocs interact with zero or more repositories. Blocs react to events and emit states which trigger changes in the UI. Widgets within each feature should generally only depend on the corresponding bloc and render UI based on the current state. The UI can notify the bloc of user input via events. In this example, our application will consist of the home, todos_overview, stats, and edit_todos features.
+This layer contains all of the application-specific features and use cases. Each feature generally consists of some UI and business logic. Features should generally be independent of other features so that they can easily be added/removed without impacting the rest of the codebase. Within each feature, the state of the feature along with any business logic is managed by blocs. Blocs interact with zero or more repositories. Blocs react to events and emit states which trigger changes in the UI. Widgets within each feature should generally only depend on the corresponding bloc and render UI based on the current state. The UI can notify the bloc of user input via events. 
+
+In this example, our application will consist of the home, todos_overview, stats, and edit_todos features.
+
+Even though there are many features that depend on the same list of todos, there is no bloc-to-bloc communication. Instead, all features are independent of each other and rely on the TodosRepository to listen for changes in the list of todos, as well as perform updates to the list.
+For example, the EditTodos doesn't know anything about the TodosOverview or Stats features
+
+When the UI submits a EditTodoSubmitted event:
+
+- EditTodoBloc handles the business logic to update the TodosRepository.
+- TodosRepository notifies TodosOverviewBloc and StatsBloc.
+- TodosOverviewBloc and StatsBloc notify the UI which update with the new state.
+
 
 
 
