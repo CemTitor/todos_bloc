@@ -37,11 +37,20 @@ Our application consists of three main layers:
 
 # Data Layer
 
-This layer is the lowest layer and is responsible for retrieving raw data from external sources such as a databases, APIs, and more. Packages in the data layer generally should not depend on any UI and can be reused and even published on pub.dev as a standalone package. In this example, our data layer consists of the todos_api and local_storage_todos_api packages.
+This layer is the lowest layer and is responsible for retrieving raw data from external sources such as a databases, APIs, and more. Packages in the data layer generally should not depend on any UI and can be reused and even published on pub.dev as a standalone package. 
 
-# Domain Layer
+In this example, our data layer consists of the todos_api and local_storage_todos_api packages.
+
+The data layer is the lowest layer in our application and consists of raw data providers. Packages in this layer are primarily concerned with where/how data is coming from. In this case our data layer will consist of the TodosApi, which is an interface, and the LocalStorageTodosApi, which is an implementation of the TodosApi backed by shared_preferences.
+
+
+
+  
+# Domain(Repository) Layer
 
 This layer combines one or more data providers and applies "business rules" to the data. Each component in this layer is called a repository and each repository generally manages a single domain. Packages in the repository layer should generally only interact with the data layer. In this example, our repository layer consists of the todos_repository package.
+
+A repository is part of the business layer. A repository depends on one or more data providers that have no business value, and combines their public API into APIs that provide business value. In addition, having a repository layer helps abstract data acquisition from the rest of the application, allowing us to change where/how data is being stored without affecting other parts of the app.
 
 # Feature Layer
 
