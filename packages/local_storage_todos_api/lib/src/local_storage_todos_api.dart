@@ -25,6 +25,7 @@ class LocalStorageTodosApi extends TodosApi {
   static const kTodosCollectionKey = '__todos_collection_key__';
 
   String? _getValue(String key) => _plugin.getString(key);
+
   Future<void> _setValue(String key, String value) =>
       _plugin.setString(key, value);
 
@@ -42,14 +43,19 @@ class LocalStorageTodosApi extends TodosApi {
     }
   }
 
+  /// Provides a [Stream] of all todos.
+  /// Report real-time updates to all subscribers when the list of todos has changed.
   @override
   Stream<List<Todo>> getTodos() => _todoStreamController.asBroadcastStream();
 
+  ///Saves a [todoo].
   @override
   Future<void> saveTodo(Todo todo) {
+    ///you can use the spread operator (...) to insert all the elements of a list into another list:
     final todos = [..._todoStreamController.value];
     final todoIndex = todos.indexWhere((t) => t.id == todo.id);
     if (todoIndex >= 0) {
+      ///If a [todoo] with the same id already exists,it will be replaced.
       todos[todoIndex] = todo;
     } else {
       todos.add(todo);
@@ -59,11 +65,13 @@ class LocalStorageTodosApi extends TodosApi {
     return _setValue(kTodosCollectionKey, json.encode(todos));
   }
 
+  ///Deletes the todoo with the given id.
   @override
   Future<void> deleteTodo(String id) async {
     final todos = [..._todoStreamController.value];
     final todoIndex = todos.indexWhere((t) => t.id == id);
     if (todoIndex == -1) {
+      ///If no todoo with the given id exists, a [TodooNotFoundException] error is thrown.
       throw TodoNotFoundException();
     } else {
       todos.removeAt(todoIndex);
@@ -72,6 +80,8 @@ class LocalStorageTodosApi extends TodosApi {
     }
   }
 
+  ///Deletes all completed todos.
+  ///Returns the number of deleted todos.
   @override
   Future<int> clearCompleted() async {
     final todos = [..._todoStreamController.value];
@@ -82,6 +92,8 @@ class LocalStorageTodosApi extends TodosApi {
     return completedTodosAmount;
   }
 
+  ///Sets the `isCompleted` state of all todos to the given value.
+  ///Returns the number of updated todos.
   @override
   Future<int> completeAll({required bool isCompleted}) async {
     final todos = [..._todoStreamController.value];
