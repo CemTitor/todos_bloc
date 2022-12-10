@@ -23,7 +23,7 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ///HomeView uses context.select to selectively rebuild whenever the tab changes. This allows us to easily widget test HomeView by providing a mock HomeCubit and stubbing the state.
-    ///We are using context.select at the root of the build method.Because parent widget(IndexedStack) depend on the state. It will result in the ENTIRE WIDGET BEING REBUILT when the selection changes.
+    ///We are using context.select at the root of the build method.Because parent widget(Scaffold) depend on the state(at IndexedStack and BottomNavBar). It will result in the ENTIRE WIDGET BEING REBUILT when the selection changes.
     final selectedTab = context.select((HomeCubit cubit) => cubit.state.tab);
 
     return Scaffold(
@@ -73,8 +73,7 @@ class _HomeTabButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      ///The instance of the cubit is looked up via context.read and the appropriate method is invoked on the cubit instance.
-      ///context.read doesn't listen for changes, it is just used to access to HomeCubit and call setTab.
+      ///The instance of the cubit is looked up via context.read and the appropriate method(setTab) is invoked on the cubit instance.
       onPressed: () => context.read<HomeCubit>().setTab(value),
       iconSize: 32,
       color:

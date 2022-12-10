@@ -25,6 +25,9 @@ class StatsView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final state = context.watch<StatsBloc>().state;
+
+    ///If you use context.read in here, you can not see the changes in the UI
+    /// final state = context.read<StatsBloc>().state;
     final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(

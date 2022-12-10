@@ -9,7 +9,7 @@ import 'package:todos_repository/todos_repository.dart';
 class EditTodoPage extends StatelessWidget {
   const EditTodoPage({super.key});
 
-  ///Unlike the other features, the EditTodosPage is a separate route which is why it exposes a static route method. This makes it easy to push the EditTodosPage onto the navigation stack via Navigator.of(context).push(...).
+  ///Unlike the other features, the EditTodosPage is a separate route which is why it exposes a static route method. This makes it EASY to push the EditTodosPage onto the navigation stack via Navigator.of(context).push(...).
   static Route<void> route({Todo? initialTodo}) {
     return MaterialPageRoute(
       fullscreenDialog: true,
